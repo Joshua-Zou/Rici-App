@@ -4,7 +4,8 @@
 1) [What it is](#what-it-is)
 2) [Installation](#installation)
 3) [Usage](#usage)
-4) [Events hosted with RICI App](#successful-events-hosted-with-rici-app)
+4) [Generate Binaries](#generate-binaries)
+5) [Events hosted with RICI App](#successful-events-hosted-with-rici-app)
 
 ### What it is
 
@@ -67,6 +68,9 @@ Hey, I'm the RICI bot!
 
 Users will see this screen:![image](https://user-images.githubusercontent.com/77520157/185002656-e1e74a8d-4498-4d53-bfea-8890281fed03.png)
 
+### Generate Binaries
+- Want to generate cross-platform binaries but only know `Node.JS`? Don't fear! There's a npm package called [pkg](https://www.npmjs.com/package/pkg)
+- Want to generate cross-platform binaries but onlyh know `Python`? Don't fear! There's a pip package called [PyInstaller](https://pyinstaller.org/en/stable/)
 
 ### Successful Events hosted with RICI app
 ![image](https://user-images.githubusercontent.com/77520157/185002788-a947ec43-4921-4f11-b4b2-f284ba71e1c6.png)
