@@ -5,6 +5,7 @@ const Discord = require('discord.js');
 const database = require("../helpers/db.js")
 var crypto = require('crypto');
 const path = require("path")
+var urljoin = require('url-join');
 
 const prefix = "v! "
 
@@ -65,7 +66,7 @@ MongoClient.connect(secrets.mongodb, async function (err, mongoclient) {
                 member.user.send(`
         Hey, I'm the RICI bot!
             It looks like you're part of the RICI session: ${session.name}! 
-            Go to this website: ${path.join(secrets.website_location, "session/" + sessionId).replace(":\\", "://").replace(/\\/g, "/")}
+            Go to this website: ${urljoin(secrets.website_location, "session/" + sessionId)}
             and enter the below password. (This password only works for you! Please do not share this password!)
                 \`${pass}\` 
                 `)
@@ -157,7 +158,7 @@ Active Sessions, as of now:
         Lock submission time: \`${Date(session.lockTime).toString()}\`
         ID: \`${id}\`
         Sent Passwords: \`${session.sentPasswords}\`
-        Link: ${path.join(secrets.website_location, "session/" + id).replace(":\\", "://").replace(/\\/g, "/")}
+        Link: ${urljoin(secrets.website_location, "session/" + id)}
         
         `)
             })}    
@@ -170,8 +171,8 @@ Active Sessions, as of now:
             const token = crypto.createHash('sha256').update("ADMIN_TOKEN").update(secrets.secret_key).update(sessionId).digest('hex');
             message.author.send(`
 Hey! Here's the access link you requested!
-        ${path.join(secrets.website_location, "admin/" + token + "/"+sessionId).replace(":\\", "://").replace(/\\/g, "/")}
-            `)
+        ${urljoin(secrets.website_location, "admin/" + token + "/" + sessionId)}
+            **DO NOT SHARE THIS WITH ANYONE!**`)
         } else if (command.split(" ")[0] === "help") {
             message.channel.send(`
 **Commands**
