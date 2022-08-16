@@ -1,0 +1,103 @@
+<html>
+<%- include('./partials/meta.ejs') %>
+
+<body>
+
+    <div class="h-full">
+        <%- include('./partials/header.ejs') %>
+
+        <div class="w-full h-screen font-sans bg-cover" style="background-image: url('https://source.unsplash.com/random/?nature'); background-color: gray">
+            <div class="container flex items-center justify-center flex-1 h-full mx-auto">
+                <div class="w-full max-w-lg">
+                    <div class="leading-loose">
+                        <div class="max-w-sm p-10 m-auto bg-black bg-opacity-25 rounded shadow-xl">
+                            <p class="mb-8 text-2xl font-light text-center text-white">
+                                Login
+                            </p>
+                            <div class="mb-2">
+                                <div class=" relative ">
+                                    <input type="text" id="login-with-bg-discordtag" class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent" placeholder="Your Discord Tag" />
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <div class=" relative ">
+                                    <input type="text" id="login-with-bg-password" class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent" placeholder="The Password Provided" />
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-4">
+                                <button onclick="login()" class="py-2 px-4  bg-sky-600 hover:bg-sky-700 focus:ring-sky-500 focus:ring-offset-sky-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                                    Validate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="error-modal" style="top: -100%" class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 fixed left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] z-999">
+        <div class="flex items-center justify-center w-12 bg-red-500">
+            <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"/>
+            </svg>
+        </div>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+</body>
+
+</html>
+
+<script>
+    async function login() {
+        var discordTag = document.getElementById("login-with-bg-discordtag").value
+        var password = document.getElementById("login-with-bg-password").value
+
+        let results = await fetch("/verify-credentials", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                discordTag: discordTag,
+                submittedPassword: password,
+                sessionId: window.location.pathname.split("/")[2]
+            })
+        });
+        results = await results.json();
+        if (results.status === "invalid_credentials") {
+            alert("Invalid Credentials! Check your session ID, discord tag, and password!")
+        } else {
+            if (confirm("Are you sure you would like to start your session? As soon as you confirm, your time will START!")) {
+                post();
+            } else {
+                alert("Ok, nothing was changed!")
+            }
+        }
+    }
+
+
+    async function post() {
+        var discordTag = document.getElementById("login-with-bg-discordtag").value
+        var password = document.getElementById("login-with-bg-password").value
+
+        let results = await fetch("/create-environment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                discordTag: discordTag,
+                submittedPassword: password,
+                sessionId: window.location.pathname.split("/")[2]
+            })
+        });
+        results = await results.json();
+        if (results.status === "invalid_credentials") {
+            alert("Invalid Credentials! Check your session ID, discord tag, and password!")
+        } else {
+            window.location.reload()
+        }
+    }
+</script>

@@ -1,0 +1,23 @@
+{
+    "name": "Vivid Bot",
+    "version": "0.0.1",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node ./webserver/index.js"
+    },
+    "keywords": [
+        ""
+    ],
+    "author": "Joshua Zou",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "1.19.0",
+        "cookie-session": "1.4.0",
+        "discord.js": "12.5.1",
+        "ejs": "3.1.6",
+        "express": "4.17.1",
+        "mongodb": "^4.6.0",
+        "node-fetch": "2.6.6"
+    }
+}

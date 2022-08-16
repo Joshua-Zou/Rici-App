@@ -1,0 +1,20 @@
+<html>
+    <%- include('./partials/meta.ejs') %>
+    <body>
+        
+        <div class="h-full">
+            <%- include('./partials/header.ejs') %>
+            <div class="block text-center my-10">
+                <h1 class="text-xl"><%-error%></h1>
+            </div>
+        </div>
+
+         
+        <%- include('./partials/footer.ejs') %>
+    </body>
+</html>
+<script>
+    if (window.location.pathname === "/" && localStorage.getItem("current-session-id")) {
+        window.location.href = "/session/"+localStorage.getItem("current-session-id")
+    }
+</script>

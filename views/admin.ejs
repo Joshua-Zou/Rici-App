@@ -1,0 +1,101 @@
+<html>
+<%- include('./partials/meta.ejs') %>
+
+<%
+    var sessionConfig = allDocuments[0]
+    
+    function getStatus(element) {
+        if (!element.started) return "Not Started"
+        if (element.started + (Number(sessionConfig.time) * 1000 * 60) + (Number(sessionConfig.grace) * 1000 * 60) > Date.now()) return "In Progress"
+        else {
+            if (element.submissionLink) return "Submitted & Locked"
+            else return "No Submission & Locked"
+        }
+    }
+    function getStatusColor(element) {
+        if (!element.started) return "red-500"
+        if (element.started + (Number(sessionConfig.time) * 1000 * 60) + (Number(sessionConfig.grace) * 1000 * 60) > Date.now()) return "orange-500"
+        else {
+            if (element.submissionLink) return "green-500"
+            else return "red-500"
+        }
+    }
+    function convertHMS(value) {
+        value = value/1000
+        const sec = parseInt(value, 10); // convert value to number if it's string
+        let hours   = Math.floor(sec / 3600); // get hours
+        let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
+        let seconds = sec - (hours * 3600) - (minutes * 60); //  get seconds
+        // add 0 if value < 10; Example: 2 => 02
+        if (hours   < 10) {hours   = "0"+hours;}
+        if (minutes < 10) {minutes = "0"+minutes;}
+        if (seconds < 10) {seconds = "0"+seconds;}
+        return hours+':'+minutes+':'+seconds; // Return is HH : MM : SS
+    }
+
+%>
+
+<body>
+
+    <div class="h-full">
+        <%- include('./partials/header.ejs') %>
+        <section class="relative py-16 bg-blueGray-50">
+            <div class="w-full mb-12 px-4">
+                <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded 
+  bg-sky-900 text-white">
+                    <div class="rounded-t mb-0 px-4 py-3 border-0">
+                        <div class="flex flex-wrap items-center">
+                            <div class="relative w-full px-4 max-w-full flex-grow flex-1 ">
+                                <h3 class="font-semibold text-lg text-white">User Submissions</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block w-full overflow-x-auto ">
+                        <table class="items-center w-full bg-transparent border-collapse">
+                            <thead>
+                                <tr>
+                                    <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-sky-800 text-sky-300 border-sky-700">Discord Tag</th>
+                                    <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-sky-800 text-sky-300 border-sky-700">Status</th>
+                                    <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-sky-800 text-sky-300 border-sky-700">Start Time</th>
+                                    <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-sky-800 text-sky-300 border-sky-700">Time remaining</th>
+                                    <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-sky-800 text-sky-300 border-sky-700">Submission Link </th>
+                                    <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-sky-800 text-sky-300 border-sky-700"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <% allDocuments.forEach(element => { %>
+                                <% if (element.id === 'metadata')return; %>
+                                <tr>
+                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-white"><%- element.id %></td>
+
+                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-white">
+                                        <div class="w-2 h-2 inline-block mr-1 align-unset rounded-full bg-<%- getStatusColor(element) %>"></div></i><%- getStatus(element) %>
+                                    </td>
+                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-white"><%- Date(element.startTime) %></td>
+                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-white"><%- convertHMS(element.started + (Number(sessionConfig.time) * 1000 * 60) + (Number(sessionConfig.grace) * 1000 * 60) - Date.now()) %></td>
+                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-white">
+                                        <a href="<%- element.submissionLink %>" target="_blank">
+                                            <%- element.submissionLink %>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <%- include('./partials/footer.ejs') %>
+</body>
+
+</html>
+<script>
+    if (window.location.pathname === "/" && localStorage.getItem("current-session-id")) {
+        window.location.href = "/session/" + localStorage.getItem("current-session-id")
+    }
+</script>
