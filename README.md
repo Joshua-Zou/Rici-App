@@ -1,5 +1,10 @@
 # Rici App
  ![image](https://user-images.githubusercontent.com/77520157/185002677-07193298-fd91-4dc4-954b-99ea27fa82e6.png)
+### Table of Contents
+1) [What it is](#what-it-is)
+2) [Installation](#installation)
+3) [Usage](#usage)
+4) [Events hosted with RICI App](#successful-events-hosted-with-rici-app)
 
 ### What it is
 
@@ -62,3 +67,7 @@ Hey, I'm the RICI bot!
 
 Users will see this screen:![image](https://user-images.githubusercontent.com/77520157/185002656-e1e74a8d-4498-4d53-bfea-8890281fed03.png)
 
+
+### Successful Events hosted with RICI app
+![image](https://user-images.githubusercontent.com/77520157/185002788-a947ec43-4921-4f11-b4b2-f284ba71e1c6.png)
+**Hosted an event with RICI app? Create a Github Issue with your hackathon name and we'll gladly update the list!**
